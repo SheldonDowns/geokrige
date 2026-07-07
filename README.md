@@ -12,18 +12,26 @@ incidents, soil samples, etc.
 
 ## Install
 
+Not yet published to PyPI — install directly from GitHub:
+
 ```bash
-pip install geokrige
+pip install "geokrige @ git+https://github.com/SheldonDowns/geokrige.git"
 # optional export targets (interactive maps, GeoTIFF):
-pip install "geokrige[export]"
+pip install "geokrige[export] @ git+https://github.com/SheldonDowns/geokrige.git"
 ```
 
 Using [uv](https://docs.astral.sh/uv/):
 
 ```bash
-uv add geokrige
-uv add "geokrige[export]"
+uv add "geokrige @ git+https://github.com/SheldonDowns/geokrige.git"
+uv add "geokrige[export] @ git+https://github.com/SheldonDowns/geokrige.git"
 ```
+
+<!--
+Once published to PyPI, switch to:
+    pip install geokrige
+    pip install "geokrige[export]"
+-->
 
 ## Quickstart
 
