@@ -26,7 +26,7 @@ dependencies = [
     "numpy",
     "pandas",
     "scipy",
-    "geopandas",
+    "apache-sedona[db]",
     "shapely",
     "pykrige",
     "scikit-learn",
@@ -34,7 +34,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-export = ["folium", "rasterio"]
+export = ["folium", "rasterio", "geopandas"]
 
 [project.urls]
 Homepage = "https://github.com/yourusername/geokrige"

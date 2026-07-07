@@ -10,6 +10,13 @@ Works with any point dataset that has a longitude, latitude, and a numeric
 value — traffic counters, air quality monitors, real-estate prices, crime
 incidents, soil samples, etc.
 
+Geometry construction, transforms, aggregation, and neighbor-pair building
+are all pushed down into [Apache SedonaDB](https://sedona.apache.org/sedonadb/latest/)
+(`sedona.db`) SQL rather than GeoPandas — a single-node, Arrow/DataFusion-backed
+spatial engine, so the same pipeline scales from a few dozen points to
+datasets far larger than fit comfortably in a GeoPandas + Python-loop
+approach, with no Spark cluster required.
+
 ## Install
 
 Not yet published to PyPI — install directly from GitHub:
@@ -84,11 +91,16 @@ df = fetch_socrata(
 | Module               | Purpose                                                           |
 |-----------------------|--------------------------------------------------------------------|
 | `socrata.py`          | Pull data from any Socrata (SODA) open-data API                   |
-| `data.py`             | `SpatialDataset`: load, aggregate, build pairs, test stationarity  |
+| `data.py`             | `SpatialDataset`: SedonaDB-backed load, aggregate, build pairs, test stationarity |
 | `autocorrelation.py`  | Global Moran's I                                                   |
 | `variogram.py`        | Empirical variogram + spherical/exponential/gaussian fit           |
 | `kriging.py`          | `KrigingPipeline`: auto OK/UK, grid predict, cross-validate         |
-| `export.py`           | Folium heatmap, GeoTIFF raster, shapefile export                   |
+| `export.py`           | Folium heatmap, GeoTIFF raster, shapefile export (needs `geokrige[export]`) |
+
+`SpatialDataset` wraps a SedonaDB view rather than an in-memory GeoDataFrame.
+Use `ds.sd.sql("...")` for any custom SQL, `ds.to_pandas()` for a plain
+DataFrame (geometry comes back as shapely `Point` objects), or
+`ds.to_geopandas()` (requires the `export` extra) for GeoPandas interop.
 
 ## Development
 

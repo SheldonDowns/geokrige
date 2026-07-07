@@ -72,9 +72,7 @@ class KrigingPipeline:
         Returns (grid_lon, grid_lat, z, variance)
         """
         lon_min, lon_max, lat_min, lat_max = bounds
-        lon = self.dataset.gdf.geometry.x.values
-        lat = self.dataset.gdf.geometry.y.values
-        val = self.dataset.gdf[self.dataset.value_col].values
+        lon, lat, val = self.dataset.lon_lat_val()
 
         model = self._build_model(lon, lat, val)
         grid_lon = np.linspace(lon_min, lon_max, resolution)
@@ -85,9 +83,7 @@ class KrigingPipeline:
     def cross_validate(self, k: int = 5, random_state: int = 42) -> dict:
         """K-fold cross validation. Returns RMSE plus the raw actual/
         predicted arrays for residual plotting."""
-        lon = self.dataset.gdf.geometry.x.values
-        lat = self.dataset.gdf.geometry.y.values
-        val = self.dataset.gdf[self.dataset.value_col].values
+        lon, lat, val = self.dataset.lon_lat_val()
 
         kf = KFold(n_splits=k, shuffle=True, random_state=random_state)
         actuals, predicted = [], []

@@ -22,7 +22,7 @@ def synthetic_df():
 
 def test_spatial_dataset_from_dataframe(synthetic_df):
     ds = SpatialDataset.from_dataframe(synthetic_df, "lon", "lat", "value")
-    assert len(ds.gdf) == len(synthetic_df)
+    assert len(ds.to_pandas()) == len(synthetic_df)
     assert ds.value_col == "value"
 
 

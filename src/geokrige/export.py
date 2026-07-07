@@ -42,7 +42,7 @@ def to_heatmap(
         gradient={"0.2": "blue", "0.4": "cyan", "0.6": "yellow", "0.8": "orange", "1.0": "red"},
     ).add_to(m)
 
-    for _, row in dataset.gdf.iterrows():
+    for _, row in dataset.to_geopandas().iterrows():
         folium.CircleMarker(
             location=[row.geometry.y, row.geometry.x],
             radius=2,
@@ -91,4 +91,4 @@ def to_raster(
 
 def to_shapefile(dataset: SpatialDataset, out_path: str):
     """Save the dataset's points (e.g. sensor locations) as a shapefile."""
-    dataset.gdf.to_file(out_path)
+    dataset.to_geopandas().to_file(out_path)
